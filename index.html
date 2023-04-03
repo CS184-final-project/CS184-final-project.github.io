@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+<!-- <link href="assets/images/diamond.png" rel="icon" /> -->
+<title>CS184 Final Project: Improving Path Tracing with VCM (Vertex Connection and Merging)</title>
+<meta name="description" content="184 Final Project Proposal">
+<meta name="author" content="harnishdesign.net">
+
+<!-- Stylesheet
+============================== -->
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css" />
+<!-- Magnific Popup -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css" />
+<!-- Highlight Syntax -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/highlight.js/styles/github.css" />
+<!-- Custom Stylesheet -->
+<link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
+</head>
+
+<body data-spy="scroll" data-target=".idocs-navigation" data-offset="125">
+
+<!-- Preloader -->
+<div class="preloader">
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<!-- Preloader End --> 
+
+<!-- Document Wrapper   
+=============================== -->
+<div id="main-wrapper"> 
+  
+  <!-- Header
+  ============================ -->
+  <header id="header" class="sticky-top"> 
+    <!-- Navbar -->
+    <nav class="primary-menu navbar navbar-expand-lg navbar-dropdown-dark">
+      <div class="container-fluid">
+        <!-- Sidebar Toggler -->
+		<button id="sidebarCollapse" class="navbar-toggler d-block d-md-none" type="button"><span></span><span class="w-75"></span><span class="w-50"></span></button>
+		
+		<!-- Logo --> 
+        <!-- <a class="logo ml-md-3" href="index.html" title="iDocs Template"> <img src="assets/images/logo.png" alt="iDocs Template"/> </a>  -->
+		<span class="text-2 ml-2">Team Members: Nico Castaneda, Jasmine Lin, Jennifer Prince, David Camacho</span> 
+        <!-- Logo End -->
+    </nav>
+    <!-- Navbar End --> 
+  </header>
+  <!-- Header End --> 
+  
+  <!-- Content
+  ============================ -->
+  <div id="content" role="main">
+    
+	<!-- Sidebar Navigation
+	============================ -->
+	<div class="idocs-navigation bg-light">
+      <ul class="nav flex-column ">
+        <!-- <li class="nav-item"><a class="nav-link active" href="#idocs_start">Overview</a>
+        	<ul class="nav flex-column">
+	        	<li class="nav-item"><a class="nav-link" href="index.html">Overview</a></li>
+			</ul>
+        </li> -->
+        <li class="nav-item"><a class="nav-link" href="#idocs_layout"> CS184 Final Project </a>
+          <ul class="nav flex-column">
+			<li class="nav-item"><a class="nav-link" href="#idocs_layout">Summary</a></li>
+			<li class="nav-item"><a class="nav-link" href="#idocs_header">Problem Description</a></li>
+			<li class="nav-item"><a class="nav-link" href="#idocs_navbar">Goals and Deliverables</a></li>
+			<li class="nav-item"><a class="nav-link" href="#idocs_sidebar">Schedule</a></li>
+			<li class="nav-item"><a class="nav-link" href="#idocs_footer">Resources and Computation</a></li>
+			<!-- <li class="nav-item"><a class="nav-link" href="#idocs_link">Website Link</a></li> -->
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Docs Content
+	============================ -->
+    <div class="idocs-content">
+      <div class="container"> 		
+        
+		<hr class="divider">
+		
+		<!-- Final Project: Overview
+		============================ -->
+        <section id="idocs_layout">
+		  <h1>Final Project: Improving Path Tracing with VCM (Vertex Connection and Merging) </h1>
+		  <h2>Summary</h2>
+          <p class="lead mb-5"> For our final project, we plan on implementing a more robust path tracing technique for rendering highly specular scenes with highly specular/glossy light transport. The technique - vertex connection and merging (VCM) -  unifies two popular sampling techniques, allowing for both the efficient handling of specular-diffuse-specular light patterns that photon mapping excels at, as well as the fast-converging diffuse lighting ability of bidirectional path tracing. Our goal in implementing this rendering technique is to be able to render more interesting lighting effects, particularly caustics and other effects that stem from participating media.
+		</p>
+        </section>
+		
+        <!-- Header
+		============================ -->
+        <section id="idocs_header">
+          <h2>Problem Description</h2>
+          <p>
+		  While still able to produce interesting images with nice specular highlights, pure path tracing struggles to render lighting effects with a small number of access paths. To get caustic lighting effects, you need to sample a very specific and hard to estimate number of paths. Thus, it would be computationally infeasible to get caustic lighting effects using pure path tracing. To address this, photon mapping is a technique that breaks our rendering step into two passes: map construction and rendering. In map construction, we shoot out photons from the light sources, and keep track of where they intersect with surfaces in a photon map. After a surface intersection, we use Russian Roulette to determine if the photon is absorbed or if it is reflected in a new direction. The photon map itself is typically spatially organized, such as in a kd-tree. In the second pass, we use our photon map to estimate the radiance of each pixel in the output image. We use our traditional path-tracing techniques to get our direct lighting contribution, then use our photon map to calculate our indirect lighting contribution. With the case of caustics, our photon map is used directly. While a massive improvement over naive path tracing, photon mapping is biased, as the photon map ends up causing a blurry caustic depending on the distribution of photons. Bidirectional path tracing on the other hand is a popular variance reduction method which casts rays from both the camera and the light source, and connects them in the middle, allowing us to have a more robust sampling strategy that makes our final render unbiased. These techniques can be merged to produce an efficient light transport algorithm that is both efficient and unbiased, rendering incredibly detailed scenes with lots of indirect lighting. This can be logically extended to support even more interesting participating media beyond glass and mirrors, such as fog and opaque glass.
+		  <p>
+        </section>
+		
+		<hr class="divider">
+		
+		<!-- Navbar
+		============================ -->
+        <section id="idocs_navbar">
+          <h2>Goals and Deliverables</h2>
+		  <p><strong>Part 1: VCM Implementation w/ robustness for some participating media (glass/water)</strong></p>
+		  <ul>
+		  	<li>Our minimum deliverable to say that our project succeeded would be to have a functional implementation of VCM that can render caustics, the classic example of which would be a glass of water. Specifically this involves implementing bidirectional path tracing and the modified formulation of photon mapping.</li>
+		  </ul>
+		  <p><strong>Part 2: Metropolised Sampling, GPU offloading, additional media support</strong></p>
+		  <ul>
+			<li>
+				VCM is a great technique, but often tends to oversample in some areas due to the multiple importance sampling falsely prioritizing regions that have already converged.
+				<ul>
+					<li>A proposed improvement to this is Markov Chain monte carlo sampling (MCMC), which can drastically reduce the number of samples needed in order to render a scene with a low RMSE (root-mean squared deviation). This essentially builds off of the Metropolis Hastings algorithm.</li>
+				</ul>
+			</li>
+			<li>CPUs are slow, GPUs are fast, CUDA/OpenGL provide opportunities for us to offload our computation onto our GPUs, which can drastically reduce render times.</li>
+			<li>Provide media support for foggy scenes, frosted glass, and/or an underwater camera.
+			</li>
+		</ul>
+		</section>
+
+		<hr class="divider">
+		
+		<!-- Sidebar
+		============================ -->
+        <section id="idocs_sidebar">
+          <h2>Schedule</h2>
+		  <p>
+			<ul>
+				<li><strong>Week 1: </strong>The underlying techniques in this case are relatively orthogonal, so we can split our group into a Photon Mapping team and a Bidirectional Path Tracing team. Once these techniques work independently, we can work together to merge them into the unified VCM algorithm.</li>
+				<li><strong>Week 2: </strong>Continue implementing VCM. Begin finding interesting render scenes. Develop performance profiling/RMSE comparison framework.</li>
+				<li><strong>Week 3: </strong>Finish VCM implementation, if time permits, we will do our stretch goals in the following order: additional media support, metropolised sampling, GPU offloading. Finalize the scenes we plan on using for our final deliverables.</li>
+				<li><strong>Week 4: </strong>Finish up a couple stretch goals (hopefully). Render our final deliverable scenes, run some performance timing tests, use RMSE as a metric to compare the success of our algorithm versus the naive path tracing implementation with equal-time renders. Put together our presentation video and other materials. Finish up the report.</li>
+			</ul>
+        </section>
+		
+        <hr class="divider">
+
+        <!-- Footer
+		============================ -->
+        <section id="idocs_footer">
+          <h2>Resources and Computation</h2>
+		  <p>We plan on using the NERSC perlmutter machine for our final, high-resolution renders as well as our performance profiling, and we will render our test images on our personal machines, utilizing the *(heavily modified) project 3 skeleton for rendering. We plan on speeding up our code with either OpenGL or CUDA if we have time, but our first priority is to get a functionally correct algorithm.</p>
+		  <p>Here are some relevant papers and readings we plan to use: </p>
+		  <ul>
+			<li>http://www.iliyan.com/publications/VertexMerging/VertexMerging_SigAsia2012.pdf</li>
+			<li>https://cgg.mff.cuni.cz/~jaroslav/papers/2016-mcmc-vcm/2016-mcmc-vcm-paper-compressed.pdf</li>
+			<li>https://jo.dreggn.org/home/2021_opsr.pdf</li>
+			<li>http://lightmetrica.org/blog/implementation_of_vcm_ups_part_1/ </li>
+			<li>https://github.com/SmallVCM/SmallVCM</li>
+		  </ul>
+        </section>
+        
+		<hr class="divider">
+
+		<!-- Can be used to link our website if needed-->
+
+        <!-- <section id="idocs_link">
+        	<p>Here is the link to this website: <a href="https://cal-cs184-student.github.io/proj-webpage-thejjdiamonds/proj1/index.html" > link</a></p>
+        	<p><a href="https://cal-cs184-student.github.io/proj-webpage-thejjdiamonds/proj1/index.html"> https://cal-cs184-student.github.io/proj-webpage-thejjdiamonds/proj1/index.html</a></p>
+        </section> -->
+		  
+  
+</div>
+<!-- Document Wrapper end --> 
+
+<!-- Back To Top --> 
+<a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a> 
+
+<!-- JavaScript
+============================ -->
+<script src="assets/vendor/jquery/jquery.min.js"></script> 
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<!-- Highlight JS -->
+<script src="assets/vendor/highlight.js/highlight.min.js"></script> 
+<!-- Easing --> 
+<script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
+<!-- Magnific Popup --> 
+<script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
+<!-- Custom Script -->
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
