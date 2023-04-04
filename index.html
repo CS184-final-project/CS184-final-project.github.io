@@ -104,6 +104,12 @@
 		============================ -->
         <section id="idocs_header">
           <h2>Problem Description</h2>
+		  <div id="centerImage">
+			<img src="img/technical_image.png" width="700px" style="margin: 5px 5px 5px 5px;">
+			<figcaption> The VCM algorithm can be split into two stages as shown above. During the first stage, we trace the sub-paths from the given light sources, store the vertices and create a range search structure over the vertices. In the second stage, we can connect a light source to their corresponding light vertices and ultimately merge with the nearby light vertices. This effectively creates the algorithm for vertex connection and merging. </figcaption>
+			<figcaption>Image Source: http://iliyan.com/publications/ImplementingVCM </figcaption>	
+		  </div>
+
           <p>
 		  While still able to produce interesting images with nice specular highlights, pure path tracing struggles to render lighting effects with a small number of access paths. To get caustic lighting effects, you need to sample a very specific and hard to estimate number of paths. Thus, it would be computationally infeasible to get caustic lighting effects using pure path tracing. To address this, photon mapping is a technique that breaks our rendering step into two passes: map construction and rendering. In map construction, we shoot out photons from the light sources, and keep track of where they intersect with surfaces in a photon map. After a surface intersection, we use Russian Roulette to determine if the photon is absorbed or if it is reflected in a new direction. The photon map itself is typically spatially organized, such as in a kd-tree. In the second pass, we use our photon map to estimate the radiance of each pixel in the output image. We use our traditional path-tracing techniques to get our direct lighting contribution, then use our photon map to calculate our indirect lighting contribution. With the case of caustics, our photon map is used directly. While a massive improvement over naive path tracing, photon mapping is biased, as the photon map ends up causing a blurry caustic depending on the distribution of photons. Bidirectional path tracing on the other hand is a popular variance reduction method which casts rays from both the camera and the light source, and connects them in the middle, allowing us to have a more robust sampling strategy that makes our final render unbiased. These techniques can be merged to produce an efficient light transport algorithm that is both efficient and unbiased, rendering incredibly detailed scenes with lots of indirect lighting. This can be logically extended to support even more interesting participating media beyond glass and mirrors, such as fog and opaque glass.
 		  <p>
@@ -115,9 +121,16 @@
 		============================ -->
         <section id="idocs_navbar">
           <h2>Goals and Deliverables</h2>
+		  <div id="centerImage">
+			<img src="img/pool.png" width="700px" style="margin: 5px 5px 5px 5px;">
+			<figcaption> A possible deliverable after finishing Part 1. Specifically, an implementation that is able to render a body of water. </figcaption>
+			<figcaption>Image Source: https://forum.corona-renderer.com/index.php?topic=294.15 </figcaption>	
+		  </div>
 		  <p><strong>Part 1: VCM Implementation w/ robustness for some participating media (glass/water)</strong></p>
 		  <ul>
-		  	<li>Our minimum deliverable to say that our project succeeded would be to have a functional implementation of VCM that can render caustics, the classic example of which would be a glass of water. Specifically this involves implementing bidirectional path tracing and the modified formulation of photon mapping.</li>
+		  	<li>Our minimum deliverable to say that our project succeeded would be to have a functional implementation of VCM that can render caustics, the classic example of which would be a glass of water. Specifically this involves implementing bidirectional path tracing and the modified formulation of photon mapping. So for this part, 
+				we would like support for certain media, like glass and water. 
+			</li>
 		  </ul>
 		  <p><strong>Part 2: Metropolised Sampling, GPU offloading, additional media support</strong></p>
 		  <ul>
@@ -127,10 +140,10 @@
 					<li>A proposed improvement to this is Markov Chain monte carlo sampling (MCMC), which can drastically reduce the number of samples needed in order to render a scene with a low RMSE (root-mean squared deviation). This essentially builds off of the Metropolis Hastings algorithm.</li>
 				</ul>
 			</li>
-			<li>CPUs are slow, GPUs are fast, CUDA/OpenGL provide opportunities for us to offload our computation onto our GPUs, which can drastically reduce render times.</li>
-			<li>Provide media support for foggy scenes, frosted glass, and/or an underwater camera.
-			</li>
+			<li>Generally speaking, because CPUs are slow and GPUs are fast, we can attempt to use CUDA/OpenGL to offload our computations onto our GPUs, which can potentially reduce our renders times drastically. So if there is time, we can possibly attempt to reduce the amount of time it takes to render our scenes.</li>
+			<li>In addition, we would like to provide media support for foggy scenes, frosted glass, and/or an underwater camera if there is time. </li>
 		</ul>
+		<p>Overall, most of what can be done in Part 2 would be optimizations to reduce rendering times and improvements in our implementation can then be measured with some observation of a speedup. Support for foggy scenes or frosted glass can also be viewed as an additional improvement in our implementation, depending on how much time we have.</p>
 		</section>
 
 		<hr class="divider">
@@ -141,7 +154,7 @@
           <h2>Schedule</h2>
 		  <p>
 			<ul>
-				<li><strong>Week 1: </strong>The underlying techniques in this case are relatively orthogonal, so we can split our group into a Photon Mapping team and a Bidirectional Path Tracing team. Once these techniques work independently, we can work together to merge them into the unified VCM algorithm.</li>
+				<li><strong>Week 1 : </strong>The underlying techniques in this case are relatively orthogonal, so we can split our group into a Photon Mapping team and a Bidirectional Path Tracing team. Once these techniques work independently, we can work together to merge them into the unified VCM algorithm.</li>
 				<li><strong>Week 2: </strong>Continue implementing VCM. Begin finding interesting render scenes. Develop performance profiling/RMSE comparison framework.</li>
 				<li><strong>Week 3: </strong>Finish VCM implementation, if time permits, we will do our stretch goals in the following order: additional media support, metropolised sampling, GPU offloading. Finalize the scenes we plan on using for our final deliverables.</li>
 				<li><strong>Week 4: </strong>Finish up a couple stretch goals (hopefully). Render our final deliverable scenes, run some performance timing tests, use RMSE as a metric to compare the success of our algorithm versus the naive path tracing implementation with equal-time renders. Put together our presentation video and other materials. Finish up the report.</li>
