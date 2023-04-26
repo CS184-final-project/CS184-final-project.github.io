@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+<!-- <link href="assets/images/diamond.png" rel="icon" /> -->
+<title>CS184 Final Project: Improving Path Tracing with VCM (Vertex Connection and Merging)</title>
+<meta name="description" content="184 Final Project Proposal">
+<meta name="author" content="harnishdesign.net">
+
+<!-- Stylesheet
+============================== -->
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css" />
+<!-- Magnific Popup -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css" />
+<!-- Highlight Syntax -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/highlight.js/styles/github.css" />
+<!-- Custom Stylesheet -->
+<link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
+</head>
+
+<body data-spy="scroll" data-target=".idocs-navigation" data-offset="125">
+
+<!-- Preloader -->
+<div class="preloader">
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<!-- Preloader End --> 
+
+<!-- Document Wrapper   
+=============================== -->
+<div id="main-wrapper"> 
+  
+  <!-- Header
+  ============================ -->
+  <header id="header" class="sticky-top"> 
+    <!-- Navbar -->
+    <nav class="primary-menu navbar navbar-expand-lg navbar-dropdown-dark">
+      <div class="container-fluid">
+        <!-- Sidebar Toggler -->
+		<button id="sidebarCollapse" class="navbar-toggler d-block d-md-none" type="button"><span></span><span class="w-75"></span><span class="w-50"></span></button>
+		
+		<!-- Logo --> 
+        <!-- <a class="logo ml-md-3" href="index.html" title="iDocs Template"> <img src="assets/images/logo.png" alt="iDocs Template"/> </a>  -->
+		<span class="text-2 ml-2">Team Members: Nico Castaneda, Jasmine Lin, Jennifer Prince, David Camacho</span> 
+        <!-- Logo End -->
+    </nav>
+    <!-- Navbar End --> 
+  </header>
+  <!-- Header End --> 
+  
+  <!-- Content
+  ============================ -->
+  <div id="content" role="main">
+    
+	<!-- Sidebar Navigation
+	============================ -->
+	<div class="idocs-navigation bg-light">
+      <ul class="nav flex-column ">
+        <!-- <li class="nav-item"><a class="nav-link active" href="#idocs_start">Overview</a>
+        	<ul class="nav flex-column">
+	        	<li class="nav-item"><a class="nav-link" href="index.html">Overview</a></li>
+			</ul>
+        </li> -->
+        <li class="nav-item"><a class="nav-link" href="#idocs_layout"> Milestone Status Report </a>
+          <ul class="nav flex-column">
+			<li class="nav-item"><a class="nav-link" href="#idocs_header">Report</a></li>
+			<li class="nav-item"><a class="nav-link" href="#idocs_navbar">Video and Slides</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Docs Content
+	============================ -->
+    <div class="idocs-content">
+      <div class="container"> 		
+        
+		<hr class="divider">
+		
+		<!-- Final Project: Milestone
+		============================ -->
+        <section id="idocs_layout">
+		  <h1>Vertex Connection Merging Status Report </h1>
+		</p>
+        </section>
+		
+        <!-- Report
+		============================ -->
+        <section id="idocs_header">
+          <h2>Milestone Report</h2>
+		  <div id="centerImage">
+			<img src="img/technical_image.png" width="700px" style="margin: 5px 5px 5px 5px;">
+			<figcaption>Image Source: http://iliyan.com/publications/ImplementingVCM </figcaption>	
+		  </div>
+
+          <!-- Quick Recap -->
+          <p> 
+            As a brief overview, our initial proposal was to implement the VCM algorithm, or vertex merging and connection. Our main objective with completing this implementation was 
+            to handle caustic effects and other effects that come from participating media. Specifically speaking, we wanted to build on the existing project 3-1 and 3-2 to improve the current 
+            rendering technique implemented and reduce the amount of noise that was currently rendered. 
+          </p>
+
+          <!-- Explain what we've finished so far. Show what we have so far. -->
+          <h3> What We've Accomplished So Far and Preliminary Results</h2>
+            <!-- Show what we have so far in terms of images and a brief explanation for it. -->
+            <p>
+                As of right now, we have an almost complete/working photon mapping (there were some hiccups involved in integrating it with the skeleton code, 
+                which is something that we’re actively working on towards finishing). We’ve provided a snippet of part of our code, <code>build_photon_map()</code>, 
+                which is our primary function that works on constructing the photon mapping. What we currently have is a data structure that allows us to essentially map photons to 3D space, 
+                and by using nearest neighbors, we’re able to estimate the average radiance of that point in 3D space. The idea behind our implementation is that it is essentially 
+                a balanced kD-tree and is built with a single sorting step at the beginning of the method. This leads to a runtime of <code>O(k * n * logn)</code> in 
+                regards to runtime with the sorting step, where <code>k</code> is the number of dimensions that we have and <code>n</code> is the number of nodes. With these optimizations, 
+                we can make the nearest neighbors search faster (for k nearest photons to average out the radiance) as we can more aggressively prune the tree to 
+                improve runtime. 
+            </p>
+
+            <p> Here is snippet of the code that we wrote for photon mapping: </p>
+            <div id="centerImage">
+                <img src="img/photon_mapping.png" width="700px" style="margin: 5px 5px 5px 5px;">
+                <figcaption>Our primary function for building the photon map (this is an extension of p3-1 and p3-2).</figcaption>	
+            </div> 
+
+            <p>
+                In regards to the other “half” of the VCM algorithm, bidirectional path tracing, it is something that we are continuing to work on - we have a set algorithm that 
+                we are currently following, but it can be summarized along these lines: 
+                <ul>
+                    <li>
+                        The algorithm for bidirectional path tracing itself. This can be broken down into two parts, which involves generating a light sample and generating an eye 
+                        (camera) sample. From those samples, we want to trace them (respectively) and perform different operations depending on a few conditions (some of them being 
+                        whether the light is a delta function and if the path length is too long). 
+                    </li>
+                    <li>The algorithm also relies on two other “helper” methods - one for generating a light sample and one for generating an eye/camera sample. </li>
+                </ul>
+                The main algorithm that we’re working on can be found here and we’re following along with the pseudocode that is given to us in the linked paper. 
+
+            </p>
+
+          <!-- Should link this resource for bidirectional path tracing alogirthm -- implementing the algorithm that is given here: https://cescg.org/wp-content/uploads/2018/04/Vlnas-Bidirectional-Path-Tracing-1.pdf-->
+          <h3> Reflection On Our Progress and Current Work Plan</h2>
+          <p>
+            Up to this point, we’ve written around half the code needed to implement VCM. Specifically, most of the code regarding the first part of the algorithm which requires photon mapping is written. Currently, 
+            there are some slight issues with the photon mapping code, at least in regards to integration with the skeleton. We also had some other difficulties when completing the project. When compiling our project, 
+            we realized that there was some error in our p3-1 implementation, which caused it to showcase some incorrect scenes when combined with p3-2 and led to additional time spent to ensure that the code for p3-1 
+            and p3-2 were completely working. We needed to successfully combine them as we couldn’t rely on the binary staff solution from p3-1 due to the fact that the VCM algorithm required the glass and mirror bsdf 
+            for p3-2 and required modifications for p3-1. As a result, we were unable to completely finish bidirectional path tracing and merge it with the photon mapping and integrate it into the current skeleton, so 
+            that is one of our primary focuses to complete after this milestone. So our current updated plan is to: 
+            <ul>
+                <li> Fix the error in photon mapping and complete bidirectional path tracing algorithm separately (from photon mapping). </li>
+                <li> Once done, integrate it into our current implementation and merge with our photon mapping to render deliverables. </li>
+                <li> Work on any additional features mentioned in our proposal; more specifically, we would like to focus on media support for foggy scenes, frosted glass, etc (if there is time). </li>
+            </ul>
+            Overall, our main priority is to finish the VCM algorithm and get the fundamentals working. If time allows it, we would like to focus on optimizations and additional media support. 
+		  <p>
+
+        </section>
+		
+		<hr class="divider">
+		
+		<!-- Milestone Video and Slides 
+		============================ -->
+        <section id="idocs_navbar">
+          <h2>Milestone Video and Slides</h2>
+          <!-- Insert video link here as <a href> -->
+          <p>
+            Here is the link to our video that briefly goes over the current progress in our project: <a href="">video</a>.
+          </p>
+          <p>
+            Here is the link to our slides that summarizes our current project and progress: <a href="https://docs.google.com/presentation/d/1j097qDG44jFG2XnGMam6Wg_6B38391N7ZW1xPuQVtFw/edit?usp=sharing">slides</a>.
+          </p>
+		</section>
+
+		<hr class="divider">
+		
+		  
+  
+</div>
+<!-- Document Wrapper end --> 
+
+<!-- Back To Top --> 
+<a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a> 
+
+<!-- JavaScript
+============================ -->
+<script src="assets/vendor/jquery/jquery.min.js"></script> 
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<!-- Highlight JS -->
+<script src="assets/vendor/highlight.js/highlight.min.js"></script> 
+<!-- Easing --> 
+<script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
+<!-- Magnific Popup --> 
+<script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
+<!-- Custom Script -->
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
