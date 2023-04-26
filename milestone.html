@@ -118,7 +118,7 @@
                 which is something that we’re actively working on towards finishing). We’ve provided a snippet of part of our code, <code>build_photon_map()</code>, 
                 which is our primary function that works on constructing the photon mapping. What we currently have is a data structure that allows us to essentially map photons to 3D space, 
                 and by using nearest neighbors, we’re able to estimate the average radiance of that point in 3D space. The idea behind our implementation is that it is essentially 
-                a balanced kD-tree and is built with a single sorting step at the beginning of the method. This leads to a runtime of <code>O(k * n * logn)</code> in 
+                a balanced kD-tree and is built with a single sorting step at the beginning of the method. This leads to <code>O(k * n * logn)</code> in 
                 regards to runtime with the sorting step, where <code>k</code> is the number of dimensions that we have and <code>n</code> is the number of nodes. With these optimizations, 
                 we can make the nearest neighbors search faster (for k nearest photons to average out the radiance) as we can more aggressively prune the tree to 
                 improve runtime. 
@@ -175,7 +175,7 @@
           <h2>Milestone Video and Slides</h2>
           <!-- Insert video link here as <a href> -->
           <p>
-            Here is the link to our video that briefly goes over the current progress in our project: <a href="">video</a>.
+            Here is the link to our video that briefly goes over the current progress in our project: <a href="https://drive.google.com/file/d/156VflHWl2g4Qek2gYhZrLLs1vzJJwCDu/view?usp=sharing">video</a>.
           </p>
           <p>
             Here is the link to our slides that summarizes our current project and progress: <a href="https://docs.google.com/presentation/d/1j097qDG44jFG2XnGMam6Wg_6B38391N7ZW1xPuQVtFw/edit?usp=sharing">slides</a>.
