@@ -160,6 +160,9 @@
                 <li> Work on any additional features mentioned in our proposal; more specifically, we would like to focus on media support for foggy scenes, frosted glass, etc (if there is time). </li>
             </ul>
             Overall, our main priority is to finish the VCM algorithm and get the fundamentals working. If time allows it, we would like to focus on optimizations and additional media support. 
+
+            As an additional note, for both parts of the algorithm to work (photon mapping and bidirectional pathtracing), the function for light sampling needs to work which is where our main bottleneck is, as rendering the lights and getting 
+            the correct radiance values seems to be the most problematic part. So this is something that we also will need to focus on for our implementation.
 		  <p>
 
         </section>
