@@ -119,7 +119,32 @@
 
           <h5>Photon Mapping</h5>
           <p>
-            
+            Using pure path tracing, it would be computationally infeasible to get caustic lighting effects. To remedy this issue, we can use photon mapping - a 
+            technique that simulates the behavior of light in a 3D scene. With photon mapping, we can break our rendering step into two passes: the map construction 
+            and rendering. 
+          </p>
+          <p>
+            During our first pass, during the construction, we start tracing a large number of photons (which can be considered to be virtual particles of light) from 
+            different light sources in the scene. By tracing the direction of the photons, we can keep track of where they intersect with the surfaces in the scene and 
+            track it in a data structure called a photon map. Once the surface intersection occurs, we can use Russian Roulette to determine if we want to absorb or reflect 
+            the photon in a new direction. For the photon map, it was organized in the fashion of a balanced kd-tree. For our implementation, the kd-tree was built with a 
+            single sorting step at the beginning, and with these optimizations, it can help our algorithm run faster. 
+          </p>
+          <p>
+            In our second pass, for rendering, we use our photon map to estimate the radiance of each pixel in our output image. Specifically speaking, we use the nearby 
+            photons of a certain pixel (which is determined through the nearest neighbors algorithm) to estimate the amount of light that is reflected or transmitted and 
+            this would ultimately affect the contribution towards the final color and brightness of the pixel. 
+          </p>
+
+          <p>
+            The main resources we used that helped our implementation can be found <a href="http://www.cs.cmu.edu/afs/cs/academic/class/15462-s15/www/lec_slides/lec16.pdf">here</a> and 
+            <a href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-s09/www/lec/17/lec17.pdf">here</a>. 
+          </p>
+
+          <p>
+            However, while the integration of photon mapping helps tremendously, at least in comparison to the original path tracing implementation, photon mapping still 
+            has its flaws, and can produce blurry caustics based on the distribution of photons. In addition, the amount of noise in the renders can also be reduced with 
+            the addition of bidirectional path tracing. 
           </p>
 
           <h5>Bidirectional Path Tracing</h5>
@@ -221,14 +246,24 @@
           <!-- Results -->
           <h3>Results</h3>
           <p> 
-            Below are our results with photon mapping. We show initially what the image looked like when rendering without photon mapping, some images that were produced throughout the implemntation and 
-            debugging process, and our final render with a completed photon mapping. 
+            Below are our results with photon mapping. We show initially what the image looked like when rendering without photon mapping and bidirectional path tracing, 
+            some images that were produced throughout the implementation and debugging process, and our final render with a completed algorithm. 
           </p>
 
-          <div id="centerImage">
-			<img src="final_img/original_spheres.png" width="600px" style="margin: 5px 5px 5px 5px;">
-            <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (spheres)</figcaption>
-		  </div> 
+          <div class="row">
+            <div class="column">
+                <img src="final_img/original_spheres.png" width="500px" style="margin: 5px 5px 5px 5px;">
+                <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (CBspheres.dae)</figcaption>
+            </div>
+            <div class="column">
+                <img src="final_img/original_dragons.png" width="500px" style="margin: 5px 5px 5px 5px;">
+                <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (CBdragon.dae) </figcaption>
+            </div>
+          </div>
+
+          <p>
+            Here are some images rendered throughout our process: 
+          </p>
 
           <div class="row">
             <div class="column">
@@ -241,12 +276,19 @@
             </div>
           </div>
 
-          <div id="centerImage">
-			<img src="final_img/original_dragons.png" width="600px" style="margin: 5px 5px 5px 5px;">
-            <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (dragon) </figcaption>
-		  </div> 
+          <div class="row">
+            <div class="column">
+              <img src="final_img/bdpt_bug1.png" width="480px" style="margin: 5px 5px 5px 50px;">
+              <figcaption>(1) Initial Implementation of Bidirectional Path Tracing </figcaption>
+            </div>
+            <!-- <div class="column">
+              <img src="final_img/photon_mapping_bug2.png" width="433px" style="margin: 5px 5px 5px 5px;">
+              <figcaption>(2) Another Attempt at Photon Mapping </figcaption>
+            </div> -->
+          </div>
 
-          <p> We also show what our images turned out with bidirectional path tracing.  </p>
+          <p> Here are our final rendered images: </p>
+
           <!-- References -->
           <h3>References</h3>
           <p>
@@ -266,7 +308,7 @@
                 <li>Nico: </li>
                 <li>David: </li>
                 <li>Jasmine: </li>
-                <li>Jennifer: </li>
+                <li>Jennifer: Wrote the implementation for BDPT and made the videos for the milestone and final report.</li>
             </ul>
           </p>
 
