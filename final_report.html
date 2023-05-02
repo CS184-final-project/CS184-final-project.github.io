@@ -118,8 +118,80 @@
           <h3>Technical Approach</h3>
 
           <h5>Photon Mapping</h5>
+          <p>
+            
+          </p>
 
           <h5>Bidirectional Path Tracing</h5>
+          <p>
+            At its core, bidirectional path tracing is a light transpot algorithm - more specifically, you shoot a path from the eye (camera in this case) and the light 
+            and connect every pair of vertices along the path. As an extension of the original path tracing algorithm in project 3, it traces the ray of light from both 
+            the camera and the light sources in the scene and then connect them at the point of where they intersect - otherwise known as a vertex. Once these vertices are 
+            connected, bidirectional path tracing is able to produce more realistic lighting effects (such as caustics and more complicated light paths) as it is able to 
+            determine where the light bounces around the scene. More information on bidirectional path tracing can be found 
+            <a href="https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter10.pdf">here</a> (one of our references). 
+          </p>
+
+          <p>
+            The implementation for the BDPT algorithm was taken from <a href="https://cescg.org/wp-content/uploads/2018/04/Vlnas-Bidirectional-Path-Tracing-1.pdf">here</a>. 
+            Generally speaking, this is the algorithm that we followed when implementing bidirectional path tracing (found in the “Implementation” section). The alogirthm was 
+            done in the original <code>pathtracer.cpp</code> file and can be summarized along the following points: 
+            <ul>
+                <li>
+                    The BDPT algorithm can be separated into two parts - we can split the algorithm into two parts, one where we generate all the light paths and one 
+                    where we generate all the paths from the virtual camera. 
+                </li>
+                <li>
+                    We first start generating our light paths, with a specific number. For all our light paths, we generate a light sample (i.e. we sample the first 
+                    point on the path from a random light source). Once this sample is generated, we then trace the path until the end, in which the end is defined 
+                    based on the Russian Roulette algorithm. For non-delta surfaces, we store the vertex in some sort of data structure (i.e. a “light path storage”) 
+                    and join the vertex with the camera. Assuming that the path of the light isn’t too long, we can then sample a new point and continue to trace along 
+                    the light path. 
+                    <ul>
+                        <li>
+                            For this part, there was an additional helper method that helped generate the light sample that can be broken down in several parts:
+                            <ul>
+                                <li>First randomly choose a specific light in the scene.</li>
+                                <li>Find the probability of light picking and scaling it accordingly with the sampling probability.</li>
+                                <li>Shoot the ray in a random direction from the selected sampled point.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    For the “second” part of bidirectional path tracing, we want to generate an eye/camera sample. While similar to what is done for our light paths, 
+                    the camera sample starts out from the camera instead of starting at a light source in the scene. In the case where the surface is non-delta, then we 
+                    want to find the direct illumination from the hit point and find all the light paths that connect and intersect with the camera path. The direct 
+                    illumination and areas of vertex connection are “accumulated” in a variable that keeps track of the color in the specific scene (based on the camera and 
+                    light paths) and is stored later in the frame buffer. 
+                    <ul>
+                        <li>
+                            We also created another method that helped us generate a camera sample. For this, we generated a specific pixel, and from the camera, we casted a 
+                            ray towards the direction of the pixel based on its x and y coordinates.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            Here's the algorithm that we mainly used, to demonstrate the pseudocode from our source: 
+          </p>
+
+          <div id="centerImage">
+			<img src="final_img/algorithm1.png" width="400px" style="margin: 5px 5px 5px 5px;">
+            <figcaption> Algorithm from Bidirectional Path Tracing </figcaption>
+		  </div> 
+
+          <div class="row">
+            <div class="column">
+              <img src="final_img/algorithm2.png" width="370px" style="margin: 5px 5px 5px 50px;">
+              <figcaption> Algorithm from Light Sampling </figcaption>
+            </div>
+            <div class="column">
+              <img src="final_img/algorithm3.png" width="500px" style="margin: 5px 5px 5px 5px;">
+              <figcaption> Algorithm from Camera/Eye Sample </figcaption>
+            </div>
+          </div>
+
 
           <h5>Problems Encountered</h5>
           <p>
@@ -155,7 +227,7 @@
 
           <div id="centerImage">
 			<img src="final_img/original_spheres.png" width="600px" style="margin: 5px 5px 5px 5px;">
-            <figcaption> Path Tracing at 1024 Samples Per Pixel (spheres)</figcaption>
+            <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (spheres)</figcaption>
 		  </div> 
 
           <div class="row">
@@ -171,7 +243,7 @@
 
           <div id="centerImage">
 			<img src="final_img/original_dragons.png" width="600px" style="margin: 5px 5px 5px 5px;">
-            <figcaption> Path Tracing at 1024 Samples Per Pixel (dragon) </figcaption>
+            <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (dragon) </figcaption>
 		  </div> 
 
           <p> We also show what our images turned out with bidirectional path tracing.  </p>
