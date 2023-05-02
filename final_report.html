@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+<!-- <link href="assets/images/diamond.png" rel="icon" /> -->
+<title>CS184 Final Project: Improving Path Tracing with VCM (Vertex Connection and Merging)</title>
+<meta name="description" content="184 Final Project Proposal">
+<meta name="author" content="harnishdesign.net">
+
+<!-- Stylesheet
+============================== -->
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/font-awesome/css/all.min.css" />
+<!-- Magnific Popup -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css" />
+<!-- Highlight Syntax -->
+<link rel="stylesheet" type="text/css" href="assets/vendor/highlight.js/styles/github.css" />
+<!-- Custom Stylesheet -->
+<link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
+</head>
+
+<body data-spy="scroll" data-target=".idocs-navigation" data-offset="125">
+
+<!-- Preloader -->
+<div class="preloader">
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<!-- Preloader End --> 
+
+<!-- Document Wrapper   
+=============================== -->
+<div id="main-wrapper"> 
+  
+  <!-- Header
+  ============================ -->
+  <header id="header" class="sticky-top"> 
+    <!-- Navbar -->
+    <nav class="primary-menu navbar navbar-expand-lg navbar-dropdown-dark">
+      <div class="container-fluid">
+        <!-- Sidebar Toggler -->
+		<button id="sidebarCollapse" class="navbar-toggler d-block d-md-none" type="button"><span></span><span class="w-75"></span><span class="w-50"></span></button>
+		
+		<!-- Logo --> 
+        <!-- <a class="logo ml-md-3" href="index.html" title="iDocs Template"> <img src="assets/images/logo.png" alt="iDocs Template"/> </a>  -->
+		<span class="text-2 ml-2">Team Members: Nico Castaneda, Jasmine Lin, Jennifer Prince, David Camacho</span> 
+        <!-- Logo End -->
+    </nav>
+    <!-- Navbar End --> 
+  </header>
+  <!-- Header End --> 
+  
+  <!-- Content
+  ============================ -->
+  <div id="content" role="main">
+    
+	<!-- Sidebar Navigation
+	============================ -->
+	<div class="idocs-navigation bg-light">
+      <ul class="nav flex-column ">
+        <!-- <li class="nav-item"><a class="nav-link active" href="#idocs_start">Overview</a>
+        	<ul class="nav flex-column">
+	        	<li class="nav-item"><a class="nav-link" href="index.html">Overview</a></li>
+			</ul>
+        </li> -->
+        <li class="nav-item"><a class="nav-link" href="#idocs_layout"> Final Report </a>
+          <ul class="nav flex-column">
+			<li class="nav-item"><a class="nav-link" href="#idocs_header">Final Report</a></li>
+			<li class="nav-item"><a class="nav-link" href="#idocs_navbar">Video and Slides</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Docs Content
+	============================ -->
+    <div class="idocs-content">
+      <div class="container"> 		
+        
+		<hr class="divider">
+		
+		<!-- Final Project: Milestone
+		============================ -->
+        <section id="idocs_layout">
+		  <h1>Vertex Connection Merging Final Report </h1>
+		</p>
+        </section>
+		
+        <!-- Report
+		============================ -->
+        <section id="idocs_header">
+          <h2>Final Report</h2>
+
+          <!-- Abstract -->
+          <h3>Abstract</h3>
+          <p>
+            For our final project, we present a more robust path tracing technique that can render highly specular scenes with specular and glossy light transport. 
+            This technique, vertex connection and merging (VCM), was implemented into our code from project 3 (parts 1 and 2) and can be extended into two parts - 
+            photon mapping and bidirectional path tracing. With this implementation, we were able to render more unique lighting effects, specifically caustics and 
+            other effects from different media, as well as reduce the amount of noise in our images. 
+          </p>
+
+          <div id="centerImage">
+			<img src="img/technical_image.png" width="700px" style="margin: 5px 5px 5px 5px;">
+            <figcaption>To showcase the two steps that make up VCM. </figcaption>
+			<figcaption>Image Source: http://iliyan.com/publications/ImplementingVCM  </figcaption>	
+		  </div>
+
+          <!-- Technical Approach -->
+          <h3>Technical Approach</h3>
+
+          <h5>Photon Mapping</h5>
+
+          <h5>Bidirectional Path Tracing</h5>
+
+          <h5>Problems Encountered</h5>
+          <p>
+            During our implementation of the project, we ran into multiple problems, the first involving our compilation of project 3. Because we needed to be able to 
+            render glass and mirror materials, but also modify the path tracing technique, we needed a working p3-1 and p3-2. We found that our implementation of p3-1 was 
+            entirely working and had to ask for staff support on this, in which we were then able to fix our project and get the “starter” code working. After, when 
+            implementing photon mapping, we ran into multiple issues regarding rendering. There were times where our lighting didn’t show the way we wanted to or it 
+            didn’t end up showing at all. This required a lot of debugging sessions and also attendance in some office hours to figure out the issue (part of the issue, 
+            that we learned, was that we had to modify the skeleton code slightly more than we had originally thought in order to get the lighting working). The other 
+            difficulty we had was bidirectional path tracing, mainly because it was more complex conceptually than initially thought, so there was more time spent on 
+            researching an implementation and figuring out how to integrate it into our code. To get a better grasp on bidirectional path tracing, we spent more 
+            significant time on trying to understand the technique and then working on an implementation. 
+          </p>
+
+          <h5>Lessons Learned</h5>
+          <p>
+            In retrospect, while this project was very engaging, it had its difficulties - trying to combine both parts  for our VCM algorithm (photon mapping and 
+            bidirectional path tracing) proved to be a challenge that demonstrated how much time it took to render images, especially when trying to render different 
+            types of media and improve the overall path tracing technique. As mentioned earlier too, there was also difficulty in trying to get the implementation 
+            together, as we had to figure out first to get a working version of the entirety of project 3 (both parts). Throughout the entire process of coding up the 
+            implementation, we should’ve placed greater emphasis on debugging and also keeping track of images before and after our implementation, to check for frame 
+            of reference if there were noticeable differences made by our implementation (which we did do, but would’ve helped if we had started a little earlier with this). 
+            Overall though, we gained a greater understanding of not only the VCM algorithm, but also the techniques and algorithms that are behind rendering more complex 
+            and unique media and their ability to do so. 
+          </p>
+
+          <!-- Results -->
+          <h3>Results</h3>
+          <p> 
+            Below are our results with photon mapping. We show initially what the image looked like when rendering without photon mapping, some images that were produced throughout the implemntation and 
+            debugging process, and our final render with a completed photon mapping. 
+          </p>
+
+          <div id="centerImage">
+			<img src="final_img/original_spheres.png" width="600px" style="margin: 5px 5px 5px 5px;">
+            <figcaption> Path Tracing at 1025 Samples Per Pixel (spheres)</figcaption>
+		  </div> 
+
+          <div class="row">
+            <div class="column">
+              <img src="final_img/photon_mapping_bug1.png" width="480px" style="margin: 5px 5px 5px 50px;">
+              <figcaption>(1) Initial Implementation of Photon Mapping </figcaption>
+            </div>
+            <div class="column">
+              <img src="final_img/photon_mapping_bug2.png" width="433px" style="margin: 5px 5px 5px 5px;">
+              <figcaption>(2) Another Attempt at Photon Mapping </figcaption>
+            </div>
+          </div>
+
+          <div id="centerImage">
+			<img src="final_img/original_dragons.png" width="600px" style="margin: 5px 5px 5px 5px;">
+            <figcaption> Path Tracing at 1025 Samples Per Pixel (dragon) </figcaption>
+		  </div> 
+
+          <p> We also show what our images turned out with bidirectional path tracing.  </p>
+          <!-- References -->
+          <h3>References</h3>
+          <p>
+            <ul>
+                <li><a href="https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter10.pdf">Bidirectional Path Tracing</a></li>
+                <li><a href="https://cescg.org/wp-content/uploads/2018/04/Vlnas-Bidirectional-Path-Tracing-1.pdf">Implementation for Bidirectional Path Tracing</a></li>
+                <li><a href="https://github.com/SmallVCM/SmallVCM">A VCM Implementation</a></li>
+                <li><a href="http://www.cs.cmu.edu/afs/cs/academic/class/15462-s15/www/lec_slides/lec16.pdf">Photon Mapping (CMU Lecture Slides 16)</a></li>
+                <li><a href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-s09/www/lec/17/lec17.pdf">Photon Mapping (CMU Lecture Slides 17)</a></li>
+            </ul>
+          </p>
+
+          <!-- Contributions -->
+          <h3>Contributions</h3>
+          <p>
+            <ul>
+                <li>Nico: </li>
+                <li>David: </li>
+                <li>Jasmine: </li>
+                <li>Jennifer: </li>
+            </ul>
+          </p>
+
+
+        </section>
+		
+		<hr class="divider">
+		
+		<!-- Final Project Video
+		============================ -->
+        <section id="idocs_navbar">
+          <h2>Final Project Video </h2>
+          <!-- Insert video link here as <a href> -->
+          <p>
+            Here is the link to our final video project, where we explain a high overview of our project and demonstrates the results: <a href="">video.</a>
+          </p>
+
+		</section>
+
+		<hr class="divider">
+		
+		  
+  
+</div>
+<!-- Document Wrapper end --> 
+
+<!-- Back To Top --> 
+<a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a> 
+
+<!-- JavaScript
+============================ -->
+<script src="assets/vendor/jquery/jquery.min.js"></script> 
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<!-- Highlight JS -->
+<script src="assets/vendor/highlight.js/highlight.min.js"></script> 
+<!-- Easing --> 
+<script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
+<!-- Magnific Popup --> 
+<script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
+<!-- Custom Script -->
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
