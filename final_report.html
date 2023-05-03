@@ -134,7 +134,7 @@
             In our second pass, for rendering, we use our photon map to estimate the radiance of each pixel in our output image. Specifically speaking, we use the nearby 
             photons of a certain pixel (which is determined through the nearest neighbors algorithm) to estimate the amount of light that is reflected or transmitted and 
             this would ultimately affect the contribution towards the final color and brightness of the pixel. This breaks down our radiance at a pixel into three components: 
-            direct lighting, indirect lighting, and caustic lighting. Direct lighting was calculated using the same method as in projects 3-2 and 3-1, while indirect and caustic lighting were
+            direct lighting, indirect lighting, and caustic lighting. Direct lighting was calculated using the same method as in projects 3-1 and 3-2, while indirect and caustic lighting were
             calculated by getting the average of the 100 nearest photons to the desired point. We also found that we ended up with sharper renders if we only used the indirect lighting Photon
             map under a certain ray depth, so the first few calculations actually still used at_least_one_bounce_radiance. There was also special calculations for specular surfaces with regards to
             the photon map, as instead of directly using the photon map, we recurse until we get a diffuse surface to reflect off of the specular material.
