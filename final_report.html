@@ -163,8 +163,7 @@
             done in the original <code>pathtracer.cpp</code> file and can be summarized along the following points: 
             <ul>
                 <li>
-                    The BDPT algorithm can be separated into two parts - we can split the algorithm into two parts, one where we generate all the light paths and one 
-                    where we generate all the paths from the virtual camera. 
+                    We can split the algorithm into two parts, one where we generate all the light paths and one where we generate all the paths from the virtual camera. 
                 </li>
                 <li>
                     We first start generating our light paths, with a specific number. For all our light paths, we generate a light sample (i.e. we sample the first 
@@ -256,8 +255,8 @@
                 <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (CBspheres.dae)</figcaption>
             </div>
             <div class="column">
-                <img src="final_img/original_dragons.png" width="500px" style="margin: 5px 5px 5px 5px;">
-                <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (CBdragon.dae) </figcaption>
+                <img src="final_img/original_lucy.png" width="500px" style="margin: 5px 5px 5px 5px;">
+                <figcaption> Regular Path Tracing at 1024 Samples Per Pixel (CBlucy.dae) </figcaption>
             </div>
           </div>
 
@@ -265,16 +264,10 @@
             Here are some images rendered throughout our process: 
           </p>
 
-          <div class="row">
-            <div class="column">
-              <img src="final_img/photon_mapping_bug1.png" width="480px" style="margin: 5px 5px 5px 50px;">
-              <figcaption>(1) Initial Implementation of Photon Mapping </figcaption>
-            </div>
-            <div class="column">
-              <img src="final_img/photon_mapping_bug2.png" width="433px" style="margin: 5px 5px 5px 5px;">
-              <figcaption>(2) Another Attempt at Photon Mapping </figcaption>
-            </div>
-          </div>
+          <div id="centerImage">
+			<img src="final_img/photon_mapping_bug1.png" width="500px" style="margin: 5px 5px 5px 5px;">
+            <figcaption> (1) Initial Implementation of Photon Mapping </figcaption>
+		  </div> 
 
           <div class="row">
             <div class="column">
@@ -288,6 +281,17 @@
           </div>
 
           <p> Here are our final rendered images: </p>
+
+          <div class="row">
+            <div class="column">
+              <img src="final_img/final_spheres.png" width="480px" style="margin: 5px 5px 5px 50px;">
+              <figcaption> Final Render of CBspheres.dae </figcaption>
+            </div>
+            <div class="column">
+              <img src="final_img/final_lucy.png" width="487px" style="margin: 5px 5px 5px 5px;">
+              <figcaption> Final Render of CBlucy.dae </figcaption>
+            </div>
+          </div>
 
           <!-- References -->
           <h3>References</h3>
@@ -305,9 +309,9 @@
           <h3>Contributions</h3>
           <p>
             <ul>
-                <li>Nico: Wrote the design and implementation for photon-mapping, helped with BDPT debugging and proof-read the milestone and final webpage. </li>
-                <li>David: Contributed to photon-mapping debugging and implementation and created the final video and slides.</li>
-                <li>Jasmine: Helped with BDPT implementation, wrote the webpage for the proposal, milestone and webpage. </li>
+                <li>Nico: Wrote the design and implementation for photon-mapping, helped with BDPT debugging and proof-read the milestone and final webpage, created the final video. </li>
+                <li>David: Contributed to photon-mapping debugging and implementation and created the slides for final submission.</li>
+                <li>Jasmine: Helped with BDPT implementation, wrote the webpage for the proposal, milestone and webpage, created slides for final presentation. </li>
                 <li>Jennifer: Wrote the implementation for BDPT and made the video for the milestone.</li>
             </ul>
           </p>
