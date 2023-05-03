@@ -138,7 +138,8 @@
 
           <p>
             The main resources we used that helped our implementation can be found <a href="http://www.cs.cmu.edu/afs/cs/academic/class/15462-s15/www/lec_slides/lec16.pdf">here</a> and 
-            <a href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-s09/www/lec/17/lec17.pdf">here</a>. 
+            <a href="https://www.cs.cmu.edu/afs/cs/academic/class/15462-s09/www/lec/17/lec17.pdf">here</a> (we primarily used these resources to conceptually understand what photon mapping 
+            was doing and to provide with us some kind of structure for our implementation). 
           </p>
 
           <p>
@@ -149,9 +150,9 @@
 
           <h5>Bidirectional Path Tracing</h5>
           <p>
-            At its core, bidirectional path tracing is a light transpot algorithm - more specifically, you shoot a path from the eye (camera in this case) and the light 
+            At its core, bidirectional path tracing is a light transport algorithm - more specifically, you shoot a path from the eye (camera in this case) and the light 
             and connect every pair of vertices along the path. As an extension of the original path tracing algorithm in project 3, it traces the ray of light from both 
-            the camera and the light sources in the scene and then connect them at the point of where they intersect - otherwise known as a vertex. Once these vertices are 
+            the camera and the light sources in the scene and then connects them at the point of where they intersect - otherwise known as a vertex. Once these vertices are 
             connected, bidirectional path tracing is able to produce more realistic lighting effects (such as caustics and more complicated light paths) as it is able to 
             determine where the light bounces around the scene. More information on bidirectional path tracing can be found 
             <a href="https://graphics.stanford.edu/courses/cs348b-03/papers/veach-chapter10.pdf">here</a> (one of our references). 
@@ -159,7 +160,7 @@
 
           <p>
             The implementation for the BDPT algorithm was taken from <a href="https://cescg.org/wp-content/uploads/2018/04/Vlnas-Bidirectional-Path-Tracing-1.pdf">here</a>. 
-            Generally speaking, this is the algorithm that we followed when implementing bidirectional path tracing (found in the “Implementation” section). The alogirthm was 
+            Generally speaking, this is the algorithm that we followed when implementing bidirectional path tracing (found in the “Implementation” section). The algorithm was 
             done in the original <code>pathtracer.cpp</code> file and can be summarized along the following points: 
             <ul>
                 <li>
@@ -221,13 +222,20 @@
           <p>
             During our implementation of the project, we ran into multiple problems, the first involving our compilation of project 3. Because we needed to be able to 
             render glass and mirror materials, but also modify the path tracing technique, we needed a working p3-1 and p3-2. We found that our implementation of p3-1 was 
-            entirely working and had to ask for staff support on this, in which we were then able to fix our project and get the “starter” code working. After, when 
+            not entirely working and had to ask for staff support on this, in which we were then able to fix our project and get the “starter” code working. After, when 
             implementing photon mapping, we ran into multiple issues regarding rendering. There were times where our lighting didn’t show the way we wanted to or it 
             didn’t end up showing at all. This required a lot of debugging sessions and also attendance in some office hours to figure out the issue (part of the issue, 
             that we learned, was that we had to modify the skeleton code slightly more than we had originally thought in order to get the lighting working). The other 
             difficulty we had was bidirectional path tracing, mainly because it was more complex conceptually than initially thought, so there was more time spent on 
             researching an implementation and figuring out how to integrate it into our code. To get a better grasp on bidirectional path tracing, we spent more 
             significant time on trying to understand the technique and then working on an implementation. 
+          </p>
+          
+          <p>
+            Ultimately, our implementation wasn’t perfect and had its flaws in rendering - while there was noticeable improvement in the amount of noise that was reduced in scenes, 
+            it didn’t show the lighting in the scenes as accurately as we wanted to. There are some parts of the scene where the lighting didn’t exactly match up with the original 
+            scene and while we are not entirely sure where the error is, we think it might have to do with our implementation of photon mapping - some possibilities might have to do with 
+            our radiance estimate or our photon casting. 
           </p>
 
           <h5>Lessons Learned</h5>
@@ -246,7 +254,7 @@
           <h3>Results</h3>
           <p> 
             Below are our results with photon mapping. We show initially what the image looked like when rendering without photon mapping and bidirectional path tracing, 
-            some images that were produced throughout the implementation and debugging process, and our final render with a completed algorithm. 
+            some images that were produced throughout the implementation and debugging process, and our final renders. 
           </p>
 
           <div class="row">
@@ -310,12 +318,11 @@
           <p>
             <ul>
                 <li>Nico: Wrote the design and implementation for photon-mapping, helped with BDPT debugging and proof-read the milestone and final webpage, created the final video. </li>
-                <li>David: Contributed to photon-mapping debugging and implementation and created the slides for final submission.</li>
+                <li>David: Contributed to photon-mapping debugging and implementation and created the slides for the final presentation.</li>
                 <li>Jasmine: Helped with BDPT implementation, wrote the webpage for the proposal, milestone and webpage, created slides for final presentation. </li>
-                <li>Jennifer: Wrote the implementation for BDPT and made the video for the milestone.</li>
+                <li>Jennifer: Wrote the implementation for BDPT and made the video for the milestone and final submission.</li>
             </ul>
           </p>
-
 
         </section>
 		
