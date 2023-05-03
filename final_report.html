@@ -133,7 +133,11 @@
           <p>
             In our second pass, for rendering, we use our photon map to estimate the radiance of each pixel in our output image. Specifically speaking, we use the nearby 
             photons of a certain pixel (which is determined through the nearest neighbors algorithm) to estimate the amount of light that is reflected or transmitted and 
-            this would ultimately affect the contribution towards the final color and brightness of the pixel. 
+            this would ultimately affect the contribution towards the final color and brightness of the pixel. This breaks down our radiance at a pixel into three components: 
+            direct lighting, indirect lighting, and caustic lighting. Direct lighting was calculated using the same method as in projects 3-2 and 3-1, while indirect and caustic lighting were
+            calculated by getting the average of the 100 nearest photons to the desired point. We also found that we ended up with sharper renders if we only used the indirect lighting Photon
+            map under a certain ray depth, so the first few calculations actually still used at_least_one_bounce_radiance. There was also special calculations for specular surfaces with regards to
+            the photon map, as instead of directly using the photon map, we recurse until we get a diffuse surface to reflect off of the specular material.
           </p>
 
           <p>
@@ -224,10 +228,12 @@
             render glass and mirror materials, but also modify the path tracing technique, we needed a working p3-1 and p3-2. We found that our implementation of p3-1 was 
             not entirely working and had to ask for staff support on this, in which we were then able to fix our project and get the “starter” code working. After, when 
             implementing photon mapping, we ran into multiple issues regarding rendering. There were times where our lighting didn’t show the way we wanted to or it 
-            didn’t end up showing at all. This required a lot of debugging sessions and also attendance in some office hours to figure out the issue (part of the issue, 
-            that we learned, was that we had to modify the skeleton code slightly more than we had originally thought in order to get the lighting working). The other 
-            difficulty we had was bidirectional path tracing, mainly because it was more complex conceptually than initially thought, so there was more time spent on 
-            researching an implementation and figuring out how to integrate it into our code. To get a better grasp on bidirectional path tracing, we spent more 
+            didn’t end up showing at all. This required a lot of debugging sessions and also attendance in some office hours to figure out the issue, which was that the way the skeleton
+            was set up, the spectrum of light sources doesn't get properly propegated down to the static light sources, resulting in our light sampling not working correctly. Additionally,
+            our photon mapping ended up looking too rigid, likely because we werent attenuating the lighting contribution of the photon map correctly, so when averaging over the nearest photons, we
+            end up with weird blocky lighting patterns because the nearest photons for multiple points are the same, even though some points are significantly further away from the photons, meaning they
+            should not end up with the same photon map lighting contribution. The other difficulty we had was bidirectional path tracing, mainly because it was more complex conceptually than initially thought, 
+            so there was more time spent on researching an implementation and figuring out how to integrate it into our code. To get a better grasp on bidirectional path tracing, we spent more 
             significant time on trying to understand the technique and then working on an implementation. 
           </p>
           
@@ -235,7 +241,7 @@
             Ultimately, our implementation wasn’t perfect and had its flaws in rendering - while there was noticeable improvement in the amount of noise that was reduced in scenes, 
             it didn’t show the lighting in the scenes as accurately as we wanted to. There are some parts of the scene where the lighting didn’t exactly match up with the original 
             scene and while we are not entirely sure where the error is, we think it might have to do with our implementation of photon mapping - some possibilities might have to do with 
-            our radiance estimate or our photon casting. 
+            our radiance estimate or our photon casting and the distribution of cast photons not being uniform throughout the scene geometry. 
           </p>
 
           <h5>Lessons Learned</h5>
